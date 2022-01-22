@@ -1,0 +1,6 @@
+isOptimal ? true
+objective value : 6.0
+time(s) : 0.37293004989624023
+nodes : 0
+Verification is feasible ? true
+sites = [19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36]

@@ -1,0 +1,6 @@
+isOptimal ? true
+objective value : 36.0
+time(s) : 0.016265869140625
+nodes : 0
+Verification is feasible ? true
+sites = [36]
