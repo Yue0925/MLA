@@ -1,6 +1,6 @@
 isOptimal ? true
-objective value : 0.0
-time(s) : 0.027765989303588867
+objective value : 25.0
+time(s) : 0.12131190299987793
 nodes : 0
 Verification is feasible ? true
-sites = [5]
+sites = [2, 13]

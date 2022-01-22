@@ -1,6 +1,6 @@
 isOptimal ? true
-objective value : 2.0
-time(s) : 0.14166498184204102
+objective value : 25.0
+time(s) : 0.08707904815673828
 nodes : 0
 Verification is feasible ? true
-sites = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14]
+sites = [3, 4, 8, 9, 10, 11, 12, 16, 21, 22, 23]

@@ -48,12 +48,8 @@ function cplexSolveLocalisation(dir::String, fileName::String)
 
 
     # coverage constraint
-    for s in 1:N
-        for c in 1:K
-            if graphCouv[s, c]
-                @constraint(M, z[c] <= y[s])
-            end
-        end
+    for c in 1:K
+        @constraint(M, z[c] <= sum(y[s] for s in 1:N if graphCouv[s, c]))
     end
 
 
@@ -83,12 +79,19 @@ function cplexSolveLocalisation(dir::String, fileName::String)
     # --------------------------------
     
     # the number of arcs equals to the total sites -1
-    @constraint(M, sum(x[i, j] for i in 1:N for j in 1:N) == (sum(y[i] for i in 1:N) -1))
+    @constraint(M, sum(x[i, j] for i in 1:N for j in 1:N if graphCom[i, j]) == (sum(y[i] for i in 1:N) -1))
 
-    # if the sites is not opened, then no arc passes it 
+    # if the sites is not opened, then no arc passes it
+    # on the contrary, if a site is opened, then at least one arc passes 
     for v in 1:N
         @constraint(M, sum(x[i, v] + x[v, i] for i in 1:N) <= P * y[v])
+        @constraint(M, sum(x[i, v] + x[v, i] for i in 1:N) >= y[v])
+        # each vertex has at most one incoming arc
+        @constraint(M, sum(x[i, v] for i in 1:N if graphCom[i, v]) <= y[v])
     end
+
+    # in a spanning tree, exactly one vertex that has no incoming arc
+    @constraint(M, sum(y[v] for v in 1:N) - 1 == sum(x[i, v] for v in 1:N for i in 1:N if graphCom[i, v]))
 
     # the q[v]=0, if v is not opened, otherwise, 1 <= q[v] <= P
     # more precisely, any q[v] cannot exceed to the total number of opened sites
@@ -133,17 +136,35 @@ function cplexSolveLocalisation(dir::String, fileName::String)
     println(writer, "nodes : ", exploredNodes)
 
     vertices = Array{Int64, 1}()
+    orders = zeros(N)
     for i in 1:N
         if JuMP.value(y[i]) > TOL
             append!(vertices, i)
+        end
+        if JuMP.value(q[i]) > TOL
+            orders[i] = round(Int64, JuMP.value(q[i]))
+        end
+
+        for j in 1:N
+            if JuMP.value(x[i, j]) > TOL
+                println("(", i, ", ", j, ")", graphCom[i, j])
+            end
         end
     end
 
     isFeasible = isConnectedComponent(vertices, graphCom)
     println(writer, "Verification is feasible ? ", isFeasible)
     println(writer, "sites = ", vertices)
+    # println(writer, "orders = [")
+    # for i in 1:N
+    #     if orders[i] >0
+    #         print(writer, " site ", i, " : ", orders[i], "; ")
+    #     end
+        
+    # end
 
     close(writer)
+    return isFeasible, isOptimal
 end
 
 
@@ -177,11 +198,16 @@ end
 
 function test()
     dir = "./data/"
-    # fileName = "grid5_5_L1_Rcouv1_Rcom1_P12.txt"
-    # cplexSolveLocalisation(dir, fileName)
+    # fileName = "grid9_9_L2_Rcouv3_Rcom3_P40.txt"
+    # isFeasible, isOptimal = cplexSolveLocalisation(dir, fileName)
 
 
     for file in readdir(dir)
-        cplexSolveLocalisation(dir, file)
+        isFeasible, isOptimal = cplexSolveLocalisation(dir, file)
+        if isFeasible != isOptimal
+            println("isFeasible : ", isFeasible, " and isOptimal : ", isOptimal)
+            println(file)
+            break
+        end
     end
 end
