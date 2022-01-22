@@ -145,11 +145,11 @@ function cplexSolveLocalisation(dir::String, fileName::String)
             orders[i] = round(Int64, JuMP.value(q[i]))
         end
 
-        for j in 1:N
-            if JuMP.value(x[i, j]) > TOL
-                println("(", i, ", ", j, ")", graphCom[i, j])
-            end
-        end
+        # for j in 1:N
+        #     if JuMP.value(x[i, j]) > TOL
+        #         println("(", i, ", ", j, ")", graphCom[i, j])
+        #     end
+        # end
     end
 
     isFeasible = isConnectedComponent(vertices, graphCom)
