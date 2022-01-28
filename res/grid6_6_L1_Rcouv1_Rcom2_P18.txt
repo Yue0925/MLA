@@ -1,6 +1,0 @@
-isOptimal ? true
-objective value : 36.0
-time(s) : 0.2316749095916748
-nodes : 0
-Verification is feasible ? true
-sites = [1, 2, 3, 4, 5, 6, 13, 15, 20, 23, 24, 28, 31, 32, 33, 35]

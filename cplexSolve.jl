@@ -1,40 +1,30 @@
 # This file contains methods to solve an instance with CPLEX
 
+using Combinatorics
+
 TOL = 0.00001
 
 
-function cplexSolveLocalisation(dir::String, fileName::String)
-    # charging data (global vars)
-    include(dir * fileName)
-
-    # distance euclidienne arrondie
-    distCouv(s, c) = round(Int64, sqrt((S[s, 1] - C[c, 1])^2 + (S[s, 2] - C[c,2])^2 + (S[s,3] - C[c,3])^2))
-    distCom(i, j) = round(Int64, sqrt((S[i, 1] - S[j, 1])^2 + (S[i, 2] - S[j,2])^2 + (S[i,3] - S[j,3])^2))
-
-    # matrix adjacecy 
-    graphCouv = falses(N, K)
-    for s in 1:N 
-        for c in 1:K
-            if distCouv(s, c) <= Rcouv
-                graphCouv[s, c] = true
-            end
-        end
-    end
-
-    # matrix adjacecy 
-    graphCom = falses(N, N)
-    for i in 1:N-1
-        for j in i+1:N
-            if distCom(i, j) <= Rcom
-                graphCom[i, j] = true
-                graphCom[j, i] = true
-            end
-        end
-    end
+# distance euclidienne arrondie
+distCouv(s, c) = round(Int64, sqrt((S[s, 1] - C[c, 1])^2 + (S[s, 2] - C[c,2])^2 + (S[s,3] - C[c,3])^2))
+distCom(i, j) = round(Int64, sqrt((S[i, 1] - S[j, 1])^2 + (S[i, 2] - S[j,2])^2))
 
 
+# function subsetGeneration(size::Int64, V::Array{Int64,1})
+    
+# end
+
+
+function cplexSolveLocalisation(dir::String, fileName::String, BranchCut=false)
+    countCuts = 0
     # modelization
     M = Model(CPLEX.Optimizer)
+    #set_optimizer_attribute(M, "CPXPARAM_TimeLimit", 500) # seconds
+
+
+    if BranchCut
+        MOI.set(M, MOI.NumberOfThreads(), 1) 
+    end
 
     # variables
     @variable(M, y[1:N], Bin) # =1, if the site is opened
@@ -113,6 +103,47 @@ function cplexSolveLocalisation(dir::String, fileName::String)
     # objective is to maximize the number of covered clients
     @objective(M, Max, sum(z[i] for i in 1:K))
 
+
+    # ------------------------------------------------------------------
+    # callback function for the cutting planes algorithm
+    # vaild inegality constraint added when the actual sol is violated
+    # ------------------------------------------------------------------
+    function callback_cuttingPlanes(cb_data::CPLEX.CallbackContext)
+        println("callback")
+
+        # get current variables
+        x_star = zeros(N, N)
+        y_star = zeros((N))
+        for i in 1:N
+            y_star[i] = callback_value(cb_data, y[i])
+            for j in 1:N
+                x_star[i, j] = callback_value(cb_data, x[i, j])
+            end
+        end
+
+        # oppened sites
+        V = filter(id-> y_star[id]>TOL, [i for i in 1:N])
+        subsets = reverse!(collect(powerset(V)))
+        for subset in subsets
+            if size(subset, 1) < 2
+                break
+            end
+            # when the sub-tour constraint is violated
+            if sum(x_star[i, j] for i in subset for j in subset) > size(subset, 1)-1
+                println("inegality added !")
+                constr = @build_constraint(sum(x[i, j] for i in subset for j in subset) <= size(subset, 1)-1)
+                MOI.submit(M, MOI.UserCut(cb_data), constr)
+                countCuts += 1
+                break
+            end
+        end
+
+    end
+
+    if BranchCut
+        MOI.set(M, MOI.UserCutCallback(), callback_cuttingPlanes)
+    end
+
     # start a chronometer
     start = time()
 
@@ -125,43 +156,40 @@ function cplexSolveLocalisation(dir::String, fileName::String)
     # status of model
     status = termination_status(M)
     isOptimal = status==MOI.OPTIMAL
+    isFeasible = false
 
     # write solution
-    outputFile = "./res/" * fileName
-    writer = open(outputFile, "w")
+    outputFile = dir * fileName
+    writer = open(outputFile, "a")
 
+    if BranchCut
+        println(writer, " --------------------------------------")
+        println(writer, "Cutting Planes used with ", countCuts, " cuts appiled ! ")
+    end
     println(writer, "isOptimal ? ", isOptimal)
-    println(writer, "objective value : ", objective_value(M))
     println(writer, "time(s) : ", computationTime)
     println(writer, "nodes : ", exploredNodes)
 
-    vertices = Array{Int64, 1}()
-    orders = zeros(N)
-    for i in 1:N
-        if JuMP.value(y[i]) > TOL
-            append!(vertices, i)
-        end
-        if JuMP.value(q[i]) > TOL
-            orders[i] = round(Int64, JuMP.value(q[i]))
-        end
 
-        # for j in 1:N
-        #     if JuMP.value(x[i, j]) > TOL
-        #         println("(", i, ", ", j, ")", graphCom[i, j])
-        #     end
-        # end
+    if isOptimal
+        println(writer, "objective value : ", objective_value(M))
+        vertices = Array{Int64, 1}()
+        orders = zeros(N)
+        for i in 1:N
+            if JuMP.value(y[i]) > TOL
+                append!(vertices, i)
+            end
+            if JuMP.value(q[i]) > TOL
+                orders[i] = round(Int64, JuMP.value(q[i]))
+            end
+    
+        end
+    
+        isFeasible = isConnectedComponent(vertices, graphCom)
+        println(writer, "Verification is feasible ? ", isFeasible)
+        println(writer, "sites = ", vertices)
+
     end
-
-    isFeasible = isConnectedComponent(vertices, graphCom)
-    println(writer, "Verification is feasible ? ", isFeasible)
-    println(writer, "sites = ", vertices)
-    # println(writer, "orders = [")
-    # for i in 1:N
-    #     if orders[i] >0
-    #         print(writer, " site ", i, " : ", orders[i], "; ")
-    #     end
-        
-    # end
 
     close(writer)
     return isFeasible, isOptimal
@@ -200,11 +228,48 @@ function test()
     dir = "./data/"
     # fileName = "grid9_9_L2_Rcouv3_Rcom3_P40.txt"
     # isFeasible, isOptimal = cplexSolveLocalisation(dir, fileName)
+    # cplexSolveLocalisation(dir, fileName, true)
 
 
     for file in readdir(dir)
-        isFeasible, isOptimal = cplexSolveLocalisation(dir, file)
+        # charging data (global vars)
+        include(dir * file)
+
+        # matrix adjacecy 
+        global graphCouv = falses(N, K)
+        for s in 1:N 
+            for c in 1:K
+                if distCouv(s, c) <= Rcouv
+                    graphCouv[s, c] = true
+                end
+            end
+        end
+
+        # matrix adjacecy 
+        global graphCom = falses(N, N)
+        for i in 1:N-1
+            for j in i+1:N
+                if distCom(i, j) <= Rcom
+                    graphCom[i, j] = true
+                    graphCom[j, i] = true
+                end
+            end
+        end
+
+        res = "./res/grid/"
+
+        isFeasible, isOptimal = cplexSolveLocalisation(res, file)
         if isFeasible != isOptimal
+            println("cplex solve error ! ")
+            println("isFeasible : ", isFeasible, " and isOptimal : ", isOptimal)
+            println(file)
+            break
+        end
+
+        # test with cutting planes 
+        isFeasible, isOptimal = cplexSolveLocalisation(res, file, true)
+        if isFeasible != isOptimal
+            println("cutting planes error ! ")
             println("isFeasible : ", isFeasible, " and isOptimal : ", isOptimal)
             println(file)
             break

@@ -66,11 +66,11 @@ end
 function generateAllInstances()
     dir = "./data/"
 
-    for bord in 5:10
+    for bord in 5:9
         for L in 1:2
-            for Rcouv in 1:3
-                for Rcom in 1:3
-                    P = round(Int64, bord^2/2)
+            for Rcouv in 1:2
+                for Rcom in 1:2
+                    P = 10
                     fileName = dir * "grid$bord" * "_$bord" * "_L$L" * "_Rcouv$Rcouv" * "_Rcom$Rcom" * "_P$P" * ".txt"
                     generateInstance(L, bord, Rcouv, Rcom, P, fileName)
                 end

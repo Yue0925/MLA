@@ -1,0 +1,14 @@
+isOptimal ? true
+time(s) : 0.01001596450805664
+nodes : 0
+objective value : 0.0
+Verification is feasible ? true
+sites = [1, 2]
+ --------------------------------------
+Cutting Planes used with 0 cuts appiled ! 
+isOptimal ? true
+time(s) : 0.009366989135742188
+nodes : 0
+objective value : 0.0
+Verification is feasible ? true
+sites = [1, 2]
