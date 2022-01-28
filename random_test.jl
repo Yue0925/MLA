@@ -51,18 +51,6 @@ for i in 1:N-1
     end
 end
 
-# S = Array{Float64}(undef, 0, 3)
-# C = Array{Float64}(undef, 0, 3)
-
-# for i in 1:N
-#     println([abs_alt[i] ord_alt[i] L])
-#     S = vcat(S, [abs_alt[i] ord_alt[i] L])
-# end
-
-# for i in 1:K
-#     C = vcat(C, [abs_sol[i] ord_sol[i] 0])
-# end
-
 res = "./res/"
 
 isFeasible, isOptimal = cplexSolveLocalisation(res, "randomInstance.txt")

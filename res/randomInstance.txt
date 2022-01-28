@@ -1,0 +1,3 @@
+isOptimal ? false
+time(s) : 512.9815621376038
+nodes : 375924

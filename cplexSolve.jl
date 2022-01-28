@@ -19,7 +19,7 @@ function cplexSolveLocalisation(dir::String, fileName::String, BranchCut=false)
     countCuts = 0
     # modelization
     M = Model(CPLEX.Optimizer)
-    #set_optimizer_attribute(M, "CPXPARAM_TimeLimit", 500) # seconds
+    set_optimizer_attribute(M, "CPXPARAM_TimeLimit", 500) # seconds
 
 
     if BranchCut
@@ -129,9 +129,9 @@ function cplexSolveLocalisation(dir::String, fileName::String, BranchCut=false)
                 break
             end
             # when the sub-tour constraint is violated
-            if sum(x_star[i, j] for i in subset for j in subset) > size(subset, 1)-1
+            if sum(x_star[i, j] for i in subset for j in subset) > sum(y_star[i] for i in subset)-1
                 println("inegality added !")
-                constr = @build_constraint(sum(x[i, j] for i in subset for j in subset) <= size(subset, 1)-1)
+                constr = @build_constraint(sum(x[i, j] for i in subset for j in subset) <= sum(y[i] for i in subset)-1)
                 MOI.submit(M, MOI.UserCut(cb_data), constr)
                 countCuts += 1
                 break

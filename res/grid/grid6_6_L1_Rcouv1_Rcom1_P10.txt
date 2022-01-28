@@ -1,5 +1,5 @@
 isOptimal ? true
-time(s) : 65.08454203605652
+time(s) : 65.26804709434509
 nodes : 168748
 objective value : 30.0
 Verification is feasible ? true
