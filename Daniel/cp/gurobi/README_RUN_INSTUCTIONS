@@ -1,0 +1,4 @@
+To execute, you need to first type
+export LD_LIBRARY_PATH=/opt/gurobi811/linux64/lib/
+
+And you need to have a license obtained via grbgetkey.
