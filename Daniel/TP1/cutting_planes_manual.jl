@@ -7,7 +7,7 @@ function modelMaster()
     @variable(MP, y[1:N], Bin)
     @variable(MP, w >=0)
 
-    @objective(MP, Min, sum(F[i] * y[i] for i in 1:N) + w)
+    @objective(MP, Min, sum(F .* y) + w)
 
     @constraint(MP, y[1] >= y[3])
     @constraint(MP, y[1] >= y[2])
@@ -88,7 +88,7 @@ function cutting_planes()
         if  objective_value(SM) - w_star > TOL
             println("b_star : ", b_star)
             println("v_star : ", v_star)
-            @constraint(MP, w >= D * b_star - sum(y[i] * v_star[i] for i in 1:N))
+            @constraint(MP, w >= D * b_star - sum(y .* v_star))
             println("violated")
         else
             break
