@@ -1,0 +1,9 @@
+DB normal --- DB manuel --- DB auto ------ MIP 
+0.469401      0.757405      0.277508      0.585502
+
+
+Sous language Julia avec solveur Cplex, test sur petit instance
+
+La décomposition manuel est le plus lente;
+La décomposition automatique est le plus rapide;
+La décomposition manuel normal est un peu plus efficace que le PLNE
