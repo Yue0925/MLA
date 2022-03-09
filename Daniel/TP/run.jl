@@ -40,12 +40,3 @@ function test_1()
     println("------------")
     @time cplexSolveMIP()
 end
-
-
-function test_2()
-    for n in 5:10
-        global N = 10
-        loadData(N)
-
-    end
-end
