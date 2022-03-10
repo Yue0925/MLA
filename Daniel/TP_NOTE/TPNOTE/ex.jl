@@ -92,7 +92,7 @@ function cp_ex1()
     # @show value.(MP[:y])
 
     solved_Time = round(time() - start_time, digits = 2)
-    return solved_Time
+    return (solved_Time, ite, round(Int, objective_value(MP)))
 
 end
 
@@ -173,7 +173,7 @@ function cp_ex2()
 
 
     solved_Time = round(time() - start_time, digits = 2)
-    return solved_Time
+    return (solved_Time, ite, round(Int, obj_v))
 end
 
 """
@@ -219,4 +219,6 @@ function Dijkstra()
     # @show prec
     obj_v = sum(dist .* D)
     @show obj_v
+    return (round(solveTime, digits = 2), round(Int, obj_v))
+
 end
