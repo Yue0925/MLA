@@ -53,10 +53,11 @@ test()
 <!---
 :::success
 -->
+```diff
++ * Pour le petit instance "benders-graphe-hexagone.txt", algo Dijkstra est moins rapide que la décomposition benders. Par contre, pour les grands instances, Dijkstra trouve la solution optimale tout de suite.
 
-* Pour le petit instance "benders-graphe-hexagone.txt", algo Dijkstra est moins rapide que la décomposition benders. Par contre, pour les grands instances, Dijkstra trouve la solution optimale tout de suite.
-
-* Pour les grands instances, EX2 avec le problème maître relaché est plus efficace que le EX1 DB classique.
++ * Pour les grands instances, EX2 avec le problème maître relaché est plus efficace que le EX1 DB classique.
+```
 <!---
 :::
 -->
@@ -108,8 +109,9 @@ test()
 <!---
 :::danger
 -->
-
-Le problème original est équivalent au problème le plus court chemin quand la bande passante est fixée à 1.
+```diff
+- Le problème original est équivalent au problème le plus court chemin quand la bande passante est fixée à 1.
+```
 <!---
 :::
 -->
@@ -117,7 +119,6 @@ Le problème original est équivalent au problème le plus court chemin quand la
 <!---
 :::info
 -->
-
 Quand $b_{nd} = 1$, alors la contrainte (1d) devient $y_{ij} \geq x_{ij} + x_{ji},\forall \{ij\} \in E, i<j$. Donc la function objective devient à $\min \sum_{ij\in E} x_{ij}$ c'est la quantité de flux circule dans le réseaux. Comme il n'y a pas de contrainte capacité sur les arcs, pour chaque chemin $P_t$ de $s$ à $t\in T$, chaque arc apporte exactement la demande $d_t$ au terminal $t$. Donc le objective peut être reécrit comme $\min \sum_{t \in T} |P_t| \cdot d_t$. Donc on cherche le plus court chemin de $s$ à tous les terminaux.
 <!---
 :::
