@@ -1,5 +1,5 @@
 # MLA TP noté
- Problème localisation avec décomposition benders.
+ Problème localisation avec décomposition benders, réalisé par Yue Zhang.
 
 
 # Exécution
@@ -50,11 +50,16 @@ test()
 |EX2                         |70                         |1.39             |93              |
 |Dijkstra                    |-                           |0.0             |93              |
 
-My important paragraph.
-{: .alert .alert-info}
+<!---
+:::success
+-->
+
 * Pour le petit instance "benders-graphe-hexagone.txt", algo Dijkstra est moins rapide que la décomposition benders. Par contre, pour les grands instances, Dijkstra trouve la solution optimale tout de suite.
 
 * Pour les grands instances, EX2 avec le problème maître relaché est plus efficace que le EX1 DB classique.
+<!---
+:::
+-->
 
 ## Avec **bande passant de 3**, on obtient les résultats suivants : 
 
@@ -84,19 +89,36 @@ My important paragraph.
 |EX1                         |119                         |5.47             |93              |
 |EX2                         |70                         |1.38             |93              |
 
+<!---
+:::success
+-->
+```diff
++ * En changeant à la bande passante 3, le nombre d'itérations sur les instances ne changent pas.
 
++ * Par contre, concernant du temps d'exécution, le EX2 avec problème maître relaché est beaucoup plus efficace que la DB classique.
+```
 
-* En changeant à la bande passante 3, le nombre d'itérations sur les instances ne changent pas.
-
-* Par contre, concernant du temps d'exécution, le EX2 avec problème maître relaché est beaucoup plus efficace que la DB classique.
+<!---
+:::
+-->
 
 
 # Optimalité du le plus court chemin
 
+<!---
 :::danger
-** Claim ** : le problème original est équivalent au problème le plus court chemin quand la bande passante est fixée à 1.
-:::
+-->
 
-:::info
-** Proof ** :
+Le problème original est équivalent au problème le plus court chemin quand la bande passante est fixée à 1.
+<!---
 :::
+-->
+
+<!---
+:::info
+-->
+
+Quand $b_{nd} = 1$, alors la contrainte (1d) devient $y_{ij} \geq x_{ij} + x_{ji},\forall \{ij\} \in E, i<j$. Donc la function objective devient à $\min \sum_{ij\in E} x_{ij}$ c'est la quantité de flux circule dans le réseaux. Comme il n'y a pas de contrainte capacité sur les arcs, pour chaque chemin $P_t$ de $s$ à $t\in T$, chaque arc apporte exactement la demande $d_t$ au terminal $t$. Donc le objective peut être reécrit comme $\min \sum_{t \in T} |P_t| \cdot d_t$. Donc on cherche le plus court chemin de $s$ à tous les terminaux.
+<!---
+:::
+-->
