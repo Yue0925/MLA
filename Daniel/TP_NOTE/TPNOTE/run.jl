@@ -35,7 +35,33 @@ end
 
 
 function test()
-    fout = open("res_bnd1", "w")
+    # fout = open("res_bnd1", "w")
+    # for file in ["benders-graphe-hexagone.txt", "benders1.txt", "benders2.txt", "benders3.txt", "benders4.txt"]
+    #     reader(file)
+    #     println(fout)
+    #     println(fout, "| ", file, " | nombre total d'itérations  | temps total (s) | valeur objective |")
+    #     println(fout, "|----------------------------|----------------------------|-----------------|-----------------|")
+
+    #     println("\n\n cp_ex1")
+    #     (times, ite, obj_v) = cp_ex1()
+    #     println(fout, "|EX1                         |", ite, "                         |", times, "             |", obj_v,
+    #          "              |")
+
+    #     println("\n\n cp_ex2")
+    #     (times, ite, obj_v) = cp_ex2()
+    #     println(fout, "|EX2                         |", ite, "                         |", times, "             |", obj_v,
+    #     "              |")
+
+    #     println("\n\n Dijkstra")
+    #     (times, obj_v) = Dijkstra()
+    #     println(fout, "|Dijkstra                    |-                           |", times, "             |", obj_v,
+    #     "              |")
+        
+    # end
+    # close(fout)
+
+    bnd = 3
+    fout = open("res_bnd3", "w")
     for file in ["benders-graphe-hexagone.txt", "benders1.txt", "benders2.txt", "benders3.txt", "benders4.txt"]
         reader(file)
         println(fout)
@@ -52,11 +78,6 @@ function test()
         println(fout, "|EX2                         |", ite, "                         |", times, "             |", obj_v,
         "              |")
 
-        println("\n\n Dijkstra")
-        (times, obj_v) = Dijkstra()
-        println(fout, "|Dijkstra                    |-                           |", times, "             |", obj_v,
-        "              |")
-        
     end
     close(fout)
 

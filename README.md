@@ -19,7 +19,7 @@ test()
 
 ## Exercice 1 & 2
 
-Pour une **bande passant de 1**, on obtient les résultats suivants : 
+### Avec **bande passant de 1**, on obtient les résultats suivants : 
 
 
 | benders-graphe-hexagone.txt | nombre total d'itérations  | temps total (s) | valeur objective |
@@ -51,3 +51,12 @@ Pour une **bande passant de 1**, on obtient les résultats suivants :
 |EX1                         |119                         |5.36             |93              |
 |EX2                         |70                         |1.39             |93              |
 |Dijkstra                    |-                           |0.0             |93              |
+
+
+* Pour le petit instance "benders-graphe-hexagone.txt", algo Dijkstra est moins rapide que décomposition benders, par contre, pour les grands instances, Dijkstra trouve la solution optimale tout de suite.
+
+* Pour les grandds instances, EX2 avec le problème maître relaché est plus efficace que le EX1 DB classique.
+  
+
+### Avec **bande passant de 3**, on obtient les résultats suivants : 
+
