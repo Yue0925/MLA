@@ -85,10 +85,12 @@ test()
 |EX2                         |70                         |1.38             |93              |
 
 :::success
+try
+:::
 * En changeant à la bande passante 3, le nombre d'itérations sur les instances ne changent pas.
 
 * Par contre, concernant du temps d'exécution, le EX2 avec problème maître relaché est beaucoup plus efficace que la DB classique.
-:::
+
 
 # Optimalité du le plus court chemin
 
