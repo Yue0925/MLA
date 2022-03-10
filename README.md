@@ -17,9 +17,7 @@ test()
 
 # Résultat
 
-## Exercice 1 & 2
-
-### Avec **bande passant de 1**, on obtient les résultats suivants : 
+## Avec **bande passant de 1**, on obtient les résultats suivants : 
 
 
 | benders-graphe-hexagone.txt | nombre total d'itérations  | temps total (s) | valeur objective |
@@ -52,13 +50,13 @@ test()
 |EX2                         |70                         |1.39             |93              |
 |Dijkstra                    |-                           |0.0             |93              |
 
-
+:::success
 * Pour le petit instance "benders-graphe-hexagone.txt", algo Dijkstra est moins rapide que la décomposition benders. Par contre, pour les grands instances, Dijkstra trouve la solution optimale tout de suite.
 
 * Pour les grands instances, EX2 avec le problème maître relaché est plus efficace que le EX1 DB classique.
-  
+::: 
 
-### Avec **bande passant de 3**, on obtient les résultats suivants : 
+## Avec **bande passant de 3**, on obtient les résultats suivants : 
 
 
 | benders-graphe-hexagone.txt | nombre total d'itérations  | temps total (s) | valeur objective |
@@ -86,7 +84,18 @@ test()
 |EX1                         |119                         |5.47             |93              |
 |EX2                         |70                         |1.38             |93              |
 
-
+:::success
 * En changeant à la bande passante 3, le nombre d'itérations sur les instances ne changent pas.
 
 * Par contre, concernant du temps d'exécution, le EX2 avec problème maître relaché est beaucoup plus efficace que la DB classique.
+:::
+
+# Optimalité du le plus court chemin
+
+:::danger
+** Claim ** : le problème original est équivalent au problème le plus court chemin quand la bande passante est fixée à 1.
+:::
+
+:::info
+** Proof ** :
+:::
