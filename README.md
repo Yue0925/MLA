@@ -53,10 +53,40 @@ test()
 |Dijkstra                    |-                           |0.0             |93              |
 
 
-* Pour le petit instance "benders-graphe-hexagone.txt", algo Dijkstra est moins rapide que décomposition benders, par contre, pour les grands instances, Dijkstra trouve la solution optimale tout de suite.
+* Pour le petit instance "benders-graphe-hexagone.txt", algo Dijkstra est moins rapide que la décomposition benders. Par contre, pour les grands instances, Dijkstra trouve la solution optimale tout de suite.
 
-* Pour les grandds instances, EX2 avec le problème maître relaché est plus efficace que le EX1 DB classique.
+* Pour les grands instances, EX2 avec le problème maître relaché est plus efficace que le EX1 DB classique.
   
 
 ### Avec **bande passant de 3**, on obtient les résultats suivants : 
 
+
+| benders-graphe-hexagone.txt | nombre total d'itérations  | temps total (s) | valeur objective |
+|----------------------------|----------------------------|-----------------|-----------------|
+|EX1                         |9                         |0.39             |21              |
+|EX2                         |9                         |0.21             |21              |
+
+| benders1.txt | nombre total d'itérations  | temps total (s) | valeur objective |
+|----------------------------|----------------------------|-----------------|-----------------|
+|EX1                         |54                         |3.66             |688              |
+|EX2                         |78                         |0.99             |688              |
+
+| benders2.txt | nombre total d'itérations  | temps total (s) | valeur objective |
+|----------------------------|----------------------------|-----------------|-----------------|
+|EX1                         |112                         |6.8             |390              |
+|EX2                         |84                         |3.21             |390              |
+
+| benders3.txt | nombre total d'itérations  | temps total (s) | valeur objective |
+|----------------------------|----------------------------|-----------------|-----------------|
+|EX1                         |128                         |11.76             |579              |
+|EX2                         |117                         |2.89             |579              |
+
+| benders4.txt | nombre total d'itérations  | temps total (s) | valeur objective |
+|----------------------------|----------------------------|-----------------|-----------------|
+|EX1                         |119                         |5.47             |93              |
+|EX2                         |70                         |1.38             |93              |
+
+
+* En changeant à la bande passante 3, le nombre d'itérations sur les instances ne changent pas.
+
+* Par contre, concernant du temps d'exécution, le EX2 avec problème maître relaché est beaucoup plus efficace que la DB classique.

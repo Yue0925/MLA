@@ -1,0 +1,25 @@
+
+| benders-graphe-hexagone.txt | nombre total d'itérations  | temps total (s) | valeur objective |
+|----------------------------|----------------------------|-----------------|-----------------|
+|EX1                         |9                         |0.39             |21              |
+|EX2                         |9                         |0.21             |21              |
+
+| benders1.txt | nombre total d'itérations  | temps total (s) | valeur objective |
+|----------------------------|----------------------------|-----------------|-----------------|
+|EX1                         |54                         |3.66             |688              |
+|EX2                         |78                         |0.99             |688              |
+
+| benders2.txt | nombre total d'itérations  | temps total (s) | valeur objective |
+|----------------------------|----------------------------|-----------------|-----------------|
+|EX1                         |112                         |6.8             |390              |
+|EX2                         |84                         |3.21             |390              |
+
+| benders3.txt | nombre total d'itérations  | temps total (s) | valeur objective |
+|----------------------------|----------------------------|-----------------|-----------------|
+|EX1                         |128                         |11.76             |579              |
+|EX2                         |117                         |2.89             |579              |
+
+| benders4.txt | nombre total d'itérations  | temps total (s) | valeur objective |
+|----------------------------|----------------------------|-----------------|-----------------|
+|EX1                         |119                         |5.47             |93              |
+|EX2                         |70                         |1.38             |93              |
