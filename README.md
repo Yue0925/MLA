@@ -56,7 +56,7 @@ test()
 ```diff
 + * Pour le petit instance "benders-graphe-hexagone.txt", algo Dijkstra est moins rapide que la décomposition benders. Par contre, pour les grands instances, Dijkstra trouve la solution optimale tout de suite.
 
-+ * Pour les grands instances, EX2 avec le problème maître relaché est plus efficace que le EX1 DB classique.
++ * Pour les grands instances, EX2 avec le problème maître relaché est plus efficace que le EX1 DB classique, ce qui implique le sommet optimal pour $y$ relâché se tombe au point optimal pour $y$ entier.
 ```
 <!---
 :::
@@ -66,40 +66,40 @@ test()
 
 | benders-graphe-hexagone.txt | nombre total d'itérations  | temps total (s) | valeur objective |
 |----------------------------|----------------------------|-----------------|-----------------|
-|EX1                         |10                         |4.92             |10              |
-|EX2                         |9                         |0.96             |10              |
+|EX1                         |10                         |0.19             |10              |
+|EX2                         |9                         |0.34             |10              |
 
 | benders1.txt | nombre total d'itérations  | temps total (s) | valeur objective |
 |----------------------------|----------------------------|-----------------|-----------------|
-|EX1                         |201                         |34.92             |237              |
-|EX2                         |201                         |35.9             |237              |
+|EX1                         |219                         |16.33             |237              |
+|EX2                         |289                         |29.22             |237              |
 
 | benders2.txt | nombre total d'itérations  | temps total (s) | valeur objective |
 |----------------------------|----------------------------|-----------------|-----------------|
-|EX1                         |201                         |43.86             |134              |
-|EX2                         |201                         |55.92             |135              |
+|EX1                         |MAXITE                         |75.28             |135              |
+|EX2                         |MAXITE                         |71.64             |135              |
 
 | benders3.txt | nombre total d'itérations  | temps total (s) | valeur objective |
 |----------------------------|----------------------------|-----------------|-----------------|
-|EX1                         |201                         |88.49             |200              |
-|EX2                         |201                         |40.58             |199              |
+|EX1                         |MAXITE                         |327.77             |201              |
+|EX2                         |MAXITE                         |83.33             |200              |
 
 | benders4.txt | nombre total d'itérations  | temps total (s) | valeur objective |
 |----------------------------|----------------------------|-----------------|-----------------|
-|EX1                         |201                         |384.43             |36              |
-|EX2                         |201                         |137.94             |36              |
+|EX1                         |MAXITE                         |2310.47             |38              |
+|EX2                         |MAXITE                         |751.76             |37              |
 
 
 
-Particulièrement, sur certains instances, la méthode EX2 avec le problème relâché n'a pas l'aire à s'arrêter, donc on fixe une limite itération ```MAXITE = 300```.
+Particulièrement, sur certains instances, les méthodes EX1 et EX2 n'a pas l'aire à s'arrêter, donc on fixe une limite itération ```MAXITE = 300```.
 
 <!---
 :::success
 -->
 ```diff
-+ * En changeant à la bande passante 3, le EX1 DB classique devient super long. Pour les trois dernières instances il atteint à la limite d'itérations. En revanche le EX2 avec le problème maître relâché est relativement beaucoup plus efficace.
++ * En changeant à la bande passante 3, le EX1 DB classique et EX2 devient hyper long qui atteint à la limite d'itérations. Donc quand il atteint à MAXITE, la solution valeur objective obtenue n'est pas vraiment "realisable". 
 
-+ * Néanmoins, la DB classique s'arrête après avoir ajouté MAXITE cuts, la valeur objective du EX2 est toujours en-dessous de EX1. On peut en détuire que la coupe feasibilité sur les $y$ relâché n'est pas 100% vraie pour les $y$ entiers. Comme EX2 est hyper plus rapide, on peut l'utiliser pour avoir une borne inférieure.
++ * Particulièrement, le EX2 recommence la DB classique sur les $y$ entires après la DB relâché. Donc le EX2 tourne au maximum 2 fois MAXITE itérations qui conduit le temps d'exécution plus lente.
 ```
 
 <!---

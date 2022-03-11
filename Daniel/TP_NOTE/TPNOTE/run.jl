@@ -10,7 +10,7 @@ function reader(fileName::String)
     global D = zeros(Int, ((N)))
     global Arcs = [[] for _ in 1:M]
     global s = 1
-    global MAXITE = 200
+    global MAXITE = 300
     data = readlines(datafile)
     close(datafile)
 

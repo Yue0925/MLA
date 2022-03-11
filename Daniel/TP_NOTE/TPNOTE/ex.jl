@@ -175,8 +175,8 @@ function cp_ex2()
     end
 
     set_integer.(MP[:y])
-    ite = 0
-    adding_cuts()
+    # ite = 0
+    # adding_cuts()
 
     optimize!(MP)
 
