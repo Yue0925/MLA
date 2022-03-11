@@ -9,8 +9,8 @@ function reader(fileName::String)
     global matrixAdj = falses(N, N)
     global D = zeros(Int, ((N)))
     global Arcs = [[] for _ in 1:M]
-    global bnd = 1
     global s = 1
+    global MAXITE = 300
     data = readlines(datafile)
     close(datafile)
 
@@ -35,6 +35,7 @@ end
 
 
 function test()
+    # global bnd = 1
     # fout = open("res_bnd1", "w")
     # for file in ["benders-graphe-hexagone.txt", "benders1.txt", "benders2.txt", "benders3.txt", "benders4.txt"]
     #     reader(file)
@@ -60,7 +61,7 @@ function test()
     # end
     # close(fout)
 
-    bnd = 3
+    global bnd = 3
     fout = open("res_bnd3", "w")
     for file in ["benders-graphe-hexagone.txt", "benders1.txt", "benders2.txt", "benders3.txt", "benders4.txt"]
         reader(file)

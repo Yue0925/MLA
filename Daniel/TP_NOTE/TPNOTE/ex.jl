@@ -46,6 +46,11 @@ function cp_ex1()
     @info "masterPB status $statusMP"
 
     while (statusMP == MOI.DUAL_INFEASIBLE) || (statusMP == MOI.OPTIMAL)
+        if ite > MAXITE
+            optimize!(MP)
+            solved_Time = round(time() - start_time, digits = 2)
+            return (solved_Time, ite, round(Int, objective_value(MP)))
+        end
         ite += 1
 
         optimize!(MP)
@@ -119,6 +124,12 @@ function cp_ex2()
     @info "masterPB status $statusMP"
 
     while (statusMP == MOI.DUAL_INFEASIBLE) || (statusMP == MOI.OPTIMAL)
+        if ite > MAXITE
+            optimize!(MP)
+            solved_Time = round(time() - start_time, digits = 2)
+            return (solved_Time, ite, round(Int, objective_value(MP)))
+        end
+
         ite += 1
 
         optimize!(MP)
