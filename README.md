@@ -97,9 +97,9 @@ Particulièrement, sur certains instances, la méthode EX2 avec le problème rel
 :::success
 -->
 ```diff
-+ * En changeant à la bande passante 3, le nombre d'itérations sur les instances ne changent pas.
++ * En changeant à la bande passante 3, le EX1 DB classique devient super long. Pour les trois dernières instances il atteint à la limite d'itérations. En revanche le EX2 avec le problème maître relâché est relativement beaucoup plus efficace.
 
-+ * Par contre, concernant du temps d'exécution, le EX2 avec problème maître relaché est beaucoup plus efficace que la DB classique.
++ * Néanmoins, la DB classique s'arrête après avoir ajouté MAXITE cuts, la valeur objective du EX2 est toujours en-dessous de EX1. On peut en détuire que la coupe feasibilité sur les $y$ relâché n'est pas 100% vraie pour les $y$ entiers. Comme EX2 est hyper plus rapide, on peut l'utiliser pour avoir une borne inférieure.
 ```
 
 <!---
