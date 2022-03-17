@@ -173,11 +173,11 @@ function cp_ex2()
     
         end
     end
-
+    ite_total = ite
     set_integer.(MP[:y])
-    # ite = 0
-    # adding_cuts()
-
+    ite = 0
+    adding_cuts()
+    ite_total += ite
     optimize!(MP)
 
     statusMP = termination_status(MP)
@@ -186,7 +186,7 @@ function cp_ex2()
     @show "objective_value(MP) = $obj_v"
 
     solved_Time = round(time() - start_time, digits = 2)
-    return (solved_Time, ite, round(Int, obj_v))
+    return (solved_Time, ite_total, round(Int, obj_v))
 end
 
 
