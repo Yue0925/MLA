@@ -77,29 +77,31 @@ test()
 | benders2.txt | nombre total d'itérations  | temps total (s) | valeur objective |
 |----------------------------|----------------------------|-----------------|-----------------|
 |EX1                         |MAXITE                         |75.28             |135              |
-|EX2                         |MAXITE                         |71.64             |135              |
+|EX2                         |MAXITE*2                        |71.64             |135              |
 
 | benders3.txt | nombre total d'itérations  | temps total (s) | valeur objective |
 |----------------------------|----------------------------|-----------------|-----------------|
 |EX1                         |MAXITE                         |327.77             |201              |
-|EX2                         |MAXITE                         |83.33             |200              |
+|EX2                         |MAXITE*2                         |83.33             |200              |
 
 | benders4.txt | nombre total d'itérations  | temps total (s) | valeur objective |
 |----------------------------|----------------------------|-----------------|-----------------|
 |EX1                         |MAXITE                         |2310.47             |38              |
-|EX2                         |MAXITE                         |751.76             |37              |
+|EX2                         |MAXITE*2                        |751.76             |37              |
 
 
 
-Particulièrement, sur certains instances, les méthodes EX1 et EX2 n'a pas l'aire à s'arrêter, donc on fixe une limite itération ```MAXITE = 300```.
+Particulièrement, sur certains instances, les méthodes EX1 et EX2 n'a pas l'aire à s'arrêter, donc on fixe une limite itération ```MAXITE = 300```.  EX2 recommence la DB classique sur les $y$ entires après la DB relâché. Donc le EX2 tourne au maximum 2 fois MAXITE itérations.
 
 <!---
 :::success
 -->
 ```diff
-+ * En changeant à la bande passante 3, le EX1 DB classique et EX2 devient hyper long qui atteint à la limite d'itérations. Donc quand il atteint à MAXITE, la solution valeur objective obtenue n'est pas vraiment "realisable". 
++ * En changeant à la bande passante 3, le EX1 DB classique et EX2 devient hyper long qui atteint à la limite d'itérations. Donc quand il atteint à MAXITE, la solution valeur objective obtenue n'est pas vraiment "realisable" (ou autrementdit "optimale"). 
 
-+ * Particulièrement, le EX2 recommence la DB classique sur les $y$ entires après la DB relâché. Donc le EX2 tourne au maximum 2 fois MAXITE itérations qui conduit le temps d'exécution plus lente.
++ * Pour les deux premiers instances, tous les deux méthodes arrivent à trouver la solution optimale avant d'atteindre à la limite MAXITE. Le méthode EX2 est légèrement plus lent car elle prend plus d'itérations.
+
++ * Pour les trois dernières grands instances, tous les méthodes ne terniment pas avant à la limite. Particulièrement, le EX2 contient deux boucles dont tous les deux perment la MAXITE, donc EX2 atteint à la limite MAXITE*2. Quandmême le EX2 est largement rapide que EX2, car le première boucle sur les $y$ relâché résout le problème PL est plus rapide que PLNE.
 ```
 
 <!---
